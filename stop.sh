@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # 停止接入程序
-cd linn
+cd kemao_2
 mvn  spring-boot:stop
 
 # 停止关注程序
