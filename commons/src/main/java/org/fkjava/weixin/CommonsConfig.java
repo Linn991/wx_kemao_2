@@ -42,6 +42,15 @@ public interface CommonsConfig extends
 		template.setValueSerializer(new JsonRedisSerializer());
 		return template;
 	}
+	
+	@Bean default <T> RedisTemplate<String,T> redisTemplate(
+			@Autowired RedisConnectionFactory connectionFactory){
+		RedisTemplate<String,T> template = new RedisTemplate<>();
+		template.setConnectionFactory(connectionFactory);
+		template.setValueSerializer(new JsonRedisSerializer());
+		return template;
+	}
+	
 
 
 	//停止监视器
