@@ -1,5 +1,4 @@
 #! /bin/bash
-
 # 安装所有模块
 mvn clean install
 
