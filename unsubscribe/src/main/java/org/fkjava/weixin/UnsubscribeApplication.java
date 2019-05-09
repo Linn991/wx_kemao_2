@@ -28,7 +28,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 @SpringBootApplication
 @ComponentScan("org.fkjava")
-public class SubscribeApplication implements
+public class UnsubscribeApplication implements
 	//命令行运行器，表示程序是一个命令行程序，需要重新run方法来实现程序的初始化
 	//使用一个线程等待程序的停止通知
 	CommandLineRunner,
@@ -40,7 +40,7 @@ public class SubscribeApplication implements
 {
 
 
-	private static final Logger LOG = LoggerFactory.getLogger(SubscribeApplication.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UnsubscribeApplication.class);
 	private ApplicationContext ctx;
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -97,7 +97,7 @@ public class SubscribeApplication implements
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-		SpringApplication.run(SubscribeApplication.class, args);
+		SpringApplication.run(UnsubscribeApplication.class, args);
 //		CountDownLatch countDownLatch = new CountDownLatch(1);
 //		countDownLatch.await();
 	}
