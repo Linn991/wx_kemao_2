@@ -23,6 +23,7 @@ public class UnsubscribeEventMessageProcessor implements EventMessageProcessor {
 	@Override
 	@Transactional
 	public void onMessage(EventInMessage msg) {
+		if(msg.getEvent().equals("subscribe")) {
 		System.out.println("取消关注消息处理器"+msg);
 		// 1.解除用户的关注状态
 		User user = this.UserRepository.findByOpenId(msg.getFromUserName());
@@ -30,6 +31,7 @@ public class UnsubscribeEventMessageProcessor implements EventMessageProcessor {
 		if(user != null) {
 			user.setStatus(User.Status.IS_UNSUBSCRIBE);
 			user.setUnsubTime(new Date());
+		}
 		}
 	}
 
