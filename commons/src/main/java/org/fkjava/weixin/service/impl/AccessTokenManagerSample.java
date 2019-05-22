@@ -39,6 +39,7 @@ public class AccessTokenManagerSample implements AccessTokenManager {
 		String key = "wx_access_token";
 		ResponseToken token = redisTemplate.boundValueOps(key).get();
 		if(token == null) {
+		for( int i=0;i<10;i++) {
 			LOG.trace("数据库里面没有令牌，需要重新获取，正在获取分布式事务锁...");
 			//加上分布式的事务锁
 			Boolean locked = redisTemplate.boundValueOps(key+"_lock")//
@@ -59,10 +60,29 @@ public class AccessTokenManagerSample implements AccessTokenManager {
 			}finally {
 				//删除分布式事务锁
 				redisTemplate.delete(key + "_lock");
+				synchronized (this) {
+					//通知其他线程继续执行，主要是wait方法要继续执行！
+					this.notifyAll();
 				}
+				}
+				//只要得到锁，即可跳出循环，不需要重试	
+				break;
 			}else {
-				throw new RuntimeException("没有获得事务锁，无法更新令牌");
+				//throw new RuntimeException("没有获得事务锁，无法更新令牌");
+				synchronized (this) {
+					try {
+						//等待一分钟，重新尝试获得锁
+						this.wait(60 * 1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
+		}
+		} 
+		if(token == null) {
+			throw new RuntimeException("无法获得访问令牌");
 		}
 		return token.getToken();
 	}
