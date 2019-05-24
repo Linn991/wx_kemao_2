@@ -10,6 +10,9 @@ spring:
       generate-ddl: true
 #运行时自动生成的SQL语句打印出来
       show-sql: true
+      properties:
+         # 指定Hibernate的方言，可以解决不能自动生成数据库表的问题
+         hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
    redis:
 # 应该要改为服务器的IP
       host: 112.74.62.130
@@ -17,7 +20,7 @@ spring:
 # 数据库只能是0~15，因为目前使用的是默认设置，最多16个数据库
       database: 15
 # 由于现在没有WEB模块，所以不需要端口
-server.port: 8090
+server.port: 8093
 # ----------------
 # Orphan comments:
 # ----------------
